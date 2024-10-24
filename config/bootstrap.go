@@ -3,20 +3,29 @@ package config
 import (
 	"bytes"
 	"embed"
+	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"os"
 	"time"
 )
 
 // **嵌入文件只能在写embed指令的Go文件的同级目录或者子目录中
+//
 //go:embed *.yaml
 var configs embed.FS
 
 func init() {
+	c := pflag.StringP("cfg", "c", "", "configuration file path empty.")
+	pflag.Parse()
+	// gen file name from environment
+	var fileName string = *c
 	env := os.Getenv("ENV")
+	if fileName == "" {
+		fileName = "application." + env + ".yaml"
+	}
 	vp := viper.New()
 	// 根据环境变量 ENV 决定要读取的应用启动配置
-	configFileStream, err := configs.ReadFile("application." + env + ".yaml")
+	configFileStream, err := configs.ReadFile(fileName)
 	if err != nil {
 		panic(err)
 	}
