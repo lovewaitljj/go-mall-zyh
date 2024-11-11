@@ -4,7 +4,7 @@ app:
   log:
     path: "/tmp/applog/go-mall.log"
     max_size: 100
-    max_age: 60
+    max_age: 90
 database:
   type: mysql
   dsn: "reserved"
