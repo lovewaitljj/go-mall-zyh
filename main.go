@@ -27,9 +27,9 @@ func main() {
 			"max_life": database.MaxLifeTime,
 		})
 	})
-	//todo 还没进行测试
+	// logger门面的测试
 	g.GET("/logger-test", func(c *gin.Context) {
-		logger.New(c).Info("logger test", "key", "keyName", "val", 2)
+		logger.Info(c, "logger test", "key", "keyName", "val", 2)
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 		})
