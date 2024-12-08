@@ -77,7 +77,7 @@ func (l *logger) Error(ctx context.Context, msg string, kv ...interface{}) {
 
 // getLoggerCallerInfo 日志调用者信息 -- 方法名, 文件名, 行号
 func (l *logger) getLoggerCallerInfo() (funcName, file string, line int) {
-	pc, file, line, ok := runtime.Caller(3) // 回溯3层，正好是调用日志的地方
+	pc, file, line, ok := runtime.Caller(4) // 回溯3层，正好是调用日志的地方
 	if !ok {
 		return
 	}

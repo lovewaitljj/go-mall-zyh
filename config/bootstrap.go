@@ -21,7 +21,7 @@ func init() {
 	var fileName string = *c
 	env := os.Getenv("ENV")
 	if fileName == "" {
-		fileName = "application." + env + ".yaml"
+		fileName = "global-" + env + ".yaml"
 	}
 	vp := viper.New()
 	// 根据环境变量 ENV 决定要读取的应用启动配置
