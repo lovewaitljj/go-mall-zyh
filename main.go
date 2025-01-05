@@ -1,6 +1,8 @@
 package main
 
 import (
+	"errors"
+	"github.com/go-study-lab/go-mall/common/errcode"
 	"github.com/go-study-lab/go-mall/common/logger"
 	"github.com/go-study-lab/go-mall/config"
 	"github.com/go-study-lab/go-mall/middleware"
@@ -41,6 +43,26 @@ func main() {
 			"data":   a,
 		})
 	})
+
+	// 测试error包装返回
+	g.GET("/customized-error-test", func(ctx *gin.Context) {
+		// 使用wrap包装原因error生成 项目error
+		err := errors.New("a dao error")
+		appErr := errcode.Wrap("包装错误", err)
+		bAppErr := errcode.Wrap("再包装错误", appErr)
+		logger.Error(ctx, "记录错误", "err", bAppErr)
+
+		// 预定义的ErrServer, 给其追加错误原因的error
+		err = errors.New("a domain error")
+		apiErr := errcode.ErrServer.WithCause(err)
+		logger.Error(ctx, "API执行中出现错误", "err", apiErr)
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"code": apiErr.Code(),
+			"msg":  apiErr.Msg(),
+		})
+	})
+
 	g.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 
 }

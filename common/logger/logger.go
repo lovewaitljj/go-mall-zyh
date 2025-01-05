@@ -45,7 +45,7 @@ func (l *logger) log(ctx context.Context, lvl zapcore.Level, msg string, kv ...i
 }
 
 func Debug(ctx context.Context, msg string, kv ...interface{}) {
-	log.Info(ctx, msg, kv...)
+	log.Debug(ctx, msg, kv...)
 }
 
 func Info(ctx context.Context, msg string, kv ...interface{}) {
@@ -53,10 +53,10 @@ func Info(ctx context.Context, msg string, kv ...interface{}) {
 }
 
 func Warn(ctx context.Context, msg string, kv ...interface{}) {
-	log.Info(ctx, msg, kv...)
+	log.Warn(ctx, msg, kv...)
 }
 func Error(ctx context.Context, msg string, kv ...interface{}) {
-	log.Info(ctx, msg, kv...)
+	log.Error(ctx, msg, kv...)
 }
 
 func (l *logger) Debug(ctx context.Context, msg string, kv ...interface{}) {
