@@ -1,6 +1,6 @@
 package errcode
 
-var codes = map[int]string{}
+var codes = map[int]struct{}{}
 
 // 此处为公共的错误码, 预留 10000000 ~ 10000099 间的 100 个错误码
 
