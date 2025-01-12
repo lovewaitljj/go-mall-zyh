@@ -11,3 +11,6 @@ database:
   max_open: 100
   max_idle: 10
   max_lifetime: 300
+pagination:
+  default_size: 20
+  max_size: 100

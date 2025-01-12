@@ -48,18 +48,18 @@ func main() {
 	g.GET("/customized-error-test", func(ctx *gin.Context) {
 		// 使用wrap包装原因error生成 项目error
 		err := errors.New("a dao error")
-		appErr := errcode.Wrap("包装错误", err)
-		bAppErr := errcode.Wrap("再包装错误", appErr)
-		logger.Error(ctx, "记录错误", "err", bAppErr)
+		appErr1 := errcode.Wrap("包装错误", err)
+		logger.Error(ctx, "记录错误", "err", appErr1)
 
 		// 预定义的ErrServer, 给其追加错误原因的error
 		err = errors.New("a domain error")
-		apiErr := errcode.ErrServer.WithCause(err)
-		logger.Error(ctx, "API执行中出现错误", "err", apiErr)
-
+		apiErr2 := errcode.ErrServer.WithCause(err)
+		logger.Error(ctx, "API执行中出现错误", "err", apiErr2)
 		ctx.JSON(http.StatusOK, gin.H{
-			"code": apiErr.Code(),
-			"msg":  apiErr.Msg(),
+			"code1": appErr1.Code(),
+			"msg1":  appErr1.Msg(),
+			"code2": apiErr2.Code(),
+			"msg2":  apiErr2.Msg(),
 		})
 	})
 
