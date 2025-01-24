@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"github.com/go-study-lab/go-mall/common/app"
 	"github.com/go-study-lab/go-mall/common/errcode"
 	"github.com/go-study-lab/go-mall/common/logger"
 	"github.com/go-study-lab/go-mall/config"
@@ -61,6 +62,37 @@ func main() {
 			"code2": apiErr2.Code(),
 			"msg2":  apiErr2.Msg(),
 		})
+	})
+	// 测试返回响应封装
+	g.GET("/response-obj", func(c *gin.Context) {
+		data := map[string]int{
+			"a": 1,
+			"b": 2,
+		}
+		app.NewResponse(c).Success(data)
+		return
+	})
+	// 测试返回响应封装err
+	g.GET("/response-err", func(c *gin.Context) {
+		baseErr := errors.New("a base error")
+		wrapErr := errcode.Wrap("a base error 错误", baseErr)
+		app.NewResponse(c).Error(errcode.ErrServer.WithCause(wrapErr))
+		return
+	})
+
+	// 测试返回响应封装page
+	g.GET("/response-page", func(c *gin.Context) {
+		pagination := app.NewPagination(c)
+		data := []struct {
+			Name string
+			Age  int
+		}{
+			{Name: "a", Age: 1},
+			{Name: "b", Age: 2},
+		}
+		pagination.SetTotalRows(2)
+		app.NewResponse(c).SetPagination(pagination).Success(data)
+		return
 	})
 
 	g.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
