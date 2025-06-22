@@ -1,6 +1,7 @@
 app:
   env: test
   name: go-mall
+  addr: :9000
   log:
     path: "/tmp/applog/go-mall.log" #生产环境放在固定目录可以让ELK日志收集组件统一到日志平台
     max_size: 100

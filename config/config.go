@@ -11,6 +11,7 @@ var (
 type appConfig struct {
 	Name string `mapstructure:"name"`
 	Env  string `mapstructure:"env"`
+	Addr string `mapstructure:"addr"`
 	Log  struct {
 		FilePath         string `mapstructure:"path"`
 		MaxSize          int    `mapstructure:"max_size"`

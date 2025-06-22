@@ -1,6 +1,7 @@
 app:
   env: dev
   name: go-mall
+  addr: :9000
   log:
     path: "/tmp/applog/go-mall.log"
     max_size: 100

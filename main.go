@@ -48,19 +48,20 @@ func main() {
 	// 测试error包装返回
 	g.GET("/customized-error-test", func(ctx *gin.Context) {
 		// 使用wrap包装原因error生成 项目error
-		err := errors.New("a dao error")
+		err := errors.New("gorm err not found")
 		appErr1 := errcode.Wrap("包装错误", err)
 		logger.Error(ctx, "记录错误", "err", appErr1)
 
 		// 预定义的ErrServer, 给其追加错误原因的error
-		err = errors.New("a domain error")
-		apiErr2 := errcode.ErrServer.WithCause(err)
+		err = errors.New("gorm err not found ")
+		apiErr2 := errcode.ErrServer.WithCause(err) // xerros.new (code.statuscode["dberr"], code.dberr)
 		logger.Error(ctx, "API执行中出现错误", "err", apiErr2)
 		ctx.JSON(http.StatusOK, gin.H{
-			"code1": appErr1.Code(),
-			"msg1":  appErr1.Msg(),
-			"code2": apiErr2.Code(),
-			"msg2":  apiErr2.Msg(),
+			"code1":  appErr1.Code(),
+			"msg1":   appErr1.Msg(),
+			"code2":  apiErr2.Code(),
+			"msg2":   apiErr2.Msg(),
+			"cause2": apiErr2.Error(),
 		})
 	})
 	// 测试返回响应封装
@@ -95,6 +96,6 @@ func main() {
 		return
 	})
 
-	g.Run(":8080") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	g.Run(config.App.Addr) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 
 }
