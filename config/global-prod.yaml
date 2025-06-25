@@ -10,8 +10,16 @@ app:
     default_size: 20
     max_size: 100
 database:
-  type: mysql
-  dsn: "reserved"
-  maxopen: 100
-  maxidle: 10
-  maxlifetime: 300
+  master:
+    type: mysql
+    dsn: root:411122@tcp(localhost:30306)/go_mall?charset=utf8&parseTime=True&loc=Asia%2FShanghai
+    max_open: 100
+    max_idle: 10
+    max_lifetime: 300000000 # 300s 内可复用
+  slave:
+    type: mysql
+    dsn: root:411122@tcp(localhost:30306)/go_mall?charset=utf8&parseTime=True&loc=Asia%2FShanghai
+    max_open: 100
+    max_idle: 10
+    max_lifetime: 300000000
+

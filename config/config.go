@@ -24,6 +24,11 @@ type appConfig struct {
 }
 
 type databaseConfig struct {
+	Master *DbConnectOption `mapstructure:"master"`
+	Slave  *DbConnectOption `mapstructure:"slave"`
+}
+
+type DbConnectOption struct {
 	Type        string        `mapstructure:"type"`
 	DSN         string        `mapstructure:"dsn"`
 	MaxOpenConn int           `mapstructure:"max_open""`

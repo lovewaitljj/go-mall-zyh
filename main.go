@@ -25,8 +25,8 @@ func main() {
 	g.GET("/config-read", func(c *gin.Context) {
 		database := config.Database
 		c.JSON(http.StatusOK, gin.H{
-			"type":     database.Type,
-			"max_life": database.MaxLifeTime,
+			"type":     database.Master.Type,
+			"max_life": database.Master.MaxLifeTime,
 		})
 	})
 	// logger门面的测试

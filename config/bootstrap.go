@@ -6,7 +6,6 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"os"
-	"time"
 )
 
 // **嵌入文件只能在写embed指令的Go文件的同级目录或者子目录中
@@ -38,5 +37,4 @@ func init() {
 	vp.UnmarshalKey("app", &App)
 
 	vp.UnmarshalKey("database", &Database)
-	Database.MaxLifeTime *= time.Second
 }
