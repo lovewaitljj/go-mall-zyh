@@ -38,7 +38,9 @@ func getDialector(dType, dsn string) gorm.Dialector {
 
 func initDB(option *config.DbConnectOption) *gorm.DB {
 	logger.Info(context.TODO(), "database config", "db", option)
-	db, err := gorm.Open(getDialector(option.Type, option.DSN), &gorm.Config{})
+	db, err := gorm.Open(getDialector(option.Type, option.DSN), &gorm.Config{
+		Logger: NewGormLogger(),
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -49,5 +51,6 @@ func initDB(option *config.DbConnectOption) *gorm.DB {
 	if err = sqlDb.Ping(); err != nil {
 		panic(err)
 	}
+
 	return db
 }
