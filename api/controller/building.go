@@ -3,6 +3,7 @@ package controller
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/go-study-lab/go-mall/api/request"
 	"github.com/go-study-lab/go-mall/common/app"
 	"github.com/go-study-lab/go-mall/common/errcode"
 	"github.com/go-study-lab/go-mall/common/logger"
@@ -123,4 +124,23 @@ func TestGormLogger(c *gin.Context) {
 	}
 	app.NewResponse(c).Success(list)
 	return
+}
+
+func TestCreateDemoOrder(c *gin.Context) {
+	request := new(request.DemoCreate)
+	err := c.ShouldBind(request)
+	if err != nil {
+		app.NewResponse(c).Error(errcode.ErrParams.WithCause(err))
+		return
+	}
+	// 验证用户信息 Token 然后把UserID赋值上去 这里测试就直接赋值了
+	//request.UserId = 123453453
+	svc := appservice.NewDemoAppSvc(c)
+	reply, err := svc.CreateDemoOrder(request)
+	if err != nil {
+		app.NewResponse(c).Error(errcode.ErrServer.WithCause(err))
+		return
+	}
+
+	app.NewResponse(c).Success(reply)
 }
